@@ -12,7 +12,7 @@ import {
 } from 'consts';
 
 
-export function defaultCommand(command: string): void {
+export const defaultCommand = (command: string)=> {
     const suggestion = commandHelper(command);
     if (suggestion) {
         console.log(`Invalid command '${command}'. Did you mean '${suggestion}'?`);
@@ -31,7 +31,7 @@ const options = {
 
 const fuse = new Fuse(COMMAND_LIST, options);
 
-function commandHelper(input: string): string | null {
+const commandHelper = (input: string) => {
     const result = fuse.search(input.toUpperCase());
 
     // If a close match is found with a score within the acceptable range, return the command

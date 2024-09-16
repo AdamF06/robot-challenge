@@ -2,7 +2,7 @@ import * as readline from 'readline';
 
 import Robot from 'models/robot';
 import {MESSAGE} from 'consts';
-import CommandManager from "commands";
+import CommandManager from "commands/command-manager";
 
 
 // Initialize the readline interface for input

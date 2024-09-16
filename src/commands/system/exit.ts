@@ -1,7 +1,7 @@
 import { MESSAGE } from 'consts';
 import * as readline from 'readline';
 
-export function exitCommand(rl: readline.Interface): void {
+export const exitCommand = (rl: readline.Interface) => {
     console.log(MESSAGE.EXIT);
     rl.close();
 }

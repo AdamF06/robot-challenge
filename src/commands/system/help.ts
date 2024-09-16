@@ -1,5 +1,5 @@
 import { MESSAGE } from 'consts';
 
-export function helpCommand(): void {
+export const helpCommand = () => {
     console.log(MESSAGE.COMMAND_INSTRUCTIONS);
 }
