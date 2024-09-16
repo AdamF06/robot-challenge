@@ -1,8 +1,12 @@
-import { Direction, DIRECTIONS } from 'consts';
-import Robot from '../models/robot';
-import { MESSAGE } from 'consts';
+import {
+    Direction,
+    DIRECTIONS,
+    MESSAGE
+} from 'consts';
+import Robot from 'models/robot';
+import {RobotCommand} from "./robot-command";
 
-export function robotPlace(args: string | undefined, robot: Robot): void {
+export const place:RobotCommand = (robot: Robot, args?: string) => {
     if (!args) {
         return console.log(MESSAGE.ERRORS.INVALID_PLACE_COMMAND);
     }
