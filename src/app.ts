@@ -2,10 +2,7 @@ import * as readline from 'readline';
 
 import Robot from 'models/robot';
 import {MESSAGE} from 'consts';
-import {
-    getCommandHandler,
-    initializeCommands
-} from "commands";
+import CommandManager from "commands";
 
 
 // Initialize the readline interface for input
@@ -18,9 +15,8 @@ const rl = readline.createInterface({
 // Initialize Robot object
 const robot = new Robot();
 
-
-// Initialize the command handlers
-initializeCommands(robot, rl);
+// Initialize the CommandManager object
+const commandManager = new CommandManager(robot, rl);
 
 // Print welcome message
 console.log(MESSAGE.WELCOME);
@@ -29,6 +25,6 @@ console.log(MESSAGE.WELCOME);
 rl.on('line', (input: string) => {
     const [command, args] = input.trim().split(' ');
 
-    const commandHandler = getCommandHandler(command, robot, rl);
+    const commandHandler = commandManager.getCommandHandler(command);
     commandHandler(args);
 });

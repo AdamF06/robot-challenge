@@ -1,5 +1,5 @@
 import * as readline from 'readline';
-import Robot from "../models/robot";
+import Robot from "models/robot";
 
 import {robotPlace} from "./robot-place";
 import {robotLeft} from "./robot-left";
@@ -13,31 +13,32 @@ import {helpCommand} from "./system-help";
 
 import {COMMANDS} from "consts";
 
-// Commands mapping object
-const commandHandlers: Record<string, (args?: string) => void> = {};
+class CommandManager {
+    private commandHandlers: Record<string, (args?: string) => void> = {};
+    private readonly robot: Robot;
+    private readonly rl: readline.Interface;
 
-// Function to initialize the COMMANDS mapping
-export function initializeCommands(robot: Robot, rl: readline.Interface): void {
-    commandHandlers[COMMANDS.PLACE] = (args: string | undefined) => robotPlace(args, robot);
-    commandHandlers[COMMANDS.MOVE] = () => robotMove(robot);
-    commandHandlers[COMMANDS.LEFT] = () => robotLeft(robot);
-    commandHandlers[COMMANDS.RIGHT] = () => robotRight(robot);
-    commandHandlers[COMMANDS.REPORT] = () => robotReport(robot);
-    commandHandlers[COMMANDS.EXIT] = () => exitCommand(rl);
-    commandHandlers[COMMANDS.HELP] = () => helpCommand();
-}
-
-// Function to get the command handler
-export const getCommandHandler = (
-    command: string,
-    robot: Robot,
-    rl: readline.Interface
-): ((args?: string) => void) => {
-    // Check if commandHandlers is empty using Object.keys()
-    if (Object.keys(commandHandlers).length === 0) {
-        initializeCommands(robot, rl);
+    constructor(robot: Robot, rl: readline.Interface) {
+        this.robot = robot;
+        this.rl = rl;
+        this.initializeCommandHandlers();
     }
 
-    // Return the corresponding handler or a default handler for unmatched commands
-    return commandHandlers[command.toUpperCase()] || (() => defaultCommand(command));
-};
+    private initializeCommandHandlers(): void {
+        this.commandHandlers[COMMANDS.PLACE] = (args: string | undefined) => robotPlace(args, this.robot);
+        this.commandHandlers[COMMANDS.MOVE] = () => robotMove(this.robot);
+        this.commandHandlers[COMMANDS.LEFT] = () => robotLeft(this.robot);
+        this.commandHandlers[COMMANDS.RIGHT] = () => robotRight(this.robot);
+        this.commandHandlers[COMMANDS.REPORT] = () => robotReport(this.robot);
+        this.commandHandlers[COMMANDS.EXIT] = () => exitCommand(this.rl);
+        this.commandHandlers[COMMANDS.HELP] = () => helpCommand();
+        // Extend here with further commands ...
+    }
+
+    public getCommandHandler(command: string): (args?: string) => void {
+        // Return the corresponding handler or a default handler for unmatched commands
+        return this.commandHandlers[command.toUpperCase()] || (() => defaultCommand(command));
+    }
+}
+
+export default CommandManager;
