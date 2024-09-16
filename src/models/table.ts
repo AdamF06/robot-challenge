@@ -1,18 +1,26 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 class Table {
     private static instance: Table;
     private readonly width: number;
     private readonly height: number;
 
     private constructor(width: number, height: number) {
-        this.width = width;
-        this.height = height;
+        this.width = width; // X-axis
+        this.height = height; // Y-axis
     }
 
     // Static method to get the single instance of the class
-    // Default table size is 5x5
-    public static getInstance(width: number = 5, height: number = 5): Table {
+    // The size of the table can be passed as a parameter when constructing the object OR
+    // configured in the .env file OR
+    // use the default value 5x5
+    public static getInstance(width?: number, height?: number): Table {
         if (!Table.instance) {
-            Table.instance = new Table(width, height);
+            const tableWidth = width || parseInt(process.env.TABLE_WIDTH || '5', 10);
+            const tableHeight = height || parseInt(process.env.TABLE_HEIGHT || '5', 10);
+            Table.instance = new Table(tableWidth, tableHeight);
         }
         return Table.instance;
     }

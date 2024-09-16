@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import Table from 'models/table';
 import {
     Direction,
@@ -5,16 +6,22 @@ import {
     MESSAGE
 } from 'consts';
 
+dotenv.config();
+
 class Robot {
     private x: number | null = null;
     private y: number | null = null;
     private direction: Direction | null = null;
-    private readonly speed: number; //
+    private readonly speed: number; // use attribute 'speed' to calculate next position when execute 'MOVE' command
     private table: Table;
 
-    constructor(speed: number = 1) {
-        this.speed = speed; // Default speed set to 1
+    // Robot's Speed can be passed as a parameter when constructing the object OR
+    // configured in the .env file OR
+    // use the default value 1
+    constructor(speed?: number) {
+        this.speed = speed || parseInt(process.env.CAR_SPEED || '1', 10); // Default speed set to 1
         this.table = Table.getInstance();
+        console.log(this.speed)
     }
 
     place(x: number, y: number, direction: Direction): void {
@@ -36,6 +43,7 @@ class Robot {
             EAST: [this.speed, 0],
             SOUTH: [0, -this.speed],
             WEST: [-this.speed, 0]
+            // Could be extended with more directions e.g. NORTH-EAST: [0.7*this.speed, 0.7*this.speed]
         };
 
         // Get the delta for the current direction
