@@ -1,0 +1,7 @@
+# Node modules
+node_modules/
+
+# Compiled TypeScript files
+dist/
+
+.idea/
