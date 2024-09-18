@@ -5,12 +5,12 @@
  */
 
 export const COMMANDS = {
-    PLACE: 'PLACE', // PLACE command requires format: PLACE X,Y,F where X and Y are integers and F is a direction (NORTH, EAST, SOUTH, WEST)
-    MOVE: 'MOVE',
-    LEFT: 'LEFT',
-    RIGHT: 'RIGHT',
-    REPORT: 'REPORT',
-    EXIT: 'EXIT',
-    HELP: 'HELP'
-} as const;
-export type Command = typeof COMMANDS[keyof typeof COMMANDS];
+  PLACE: "PLACE", // PLACE command requires format: PLACE X,Y,F where X and Y are integers and F is a direction (NORTH, EAST, SOUTH, WEST)
+  MOVE: "MOVE",
+  LEFT: "LEFT",
+  RIGHT: "RIGHT",
+  REPORT: "REPORT",
+  EXIT: "EXIT",
+  HELP: "HELP",
+} as const
+export type Command = (typeof COMMANDS)[keyof typeof COMMANDS]

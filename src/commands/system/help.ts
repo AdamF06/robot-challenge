@@ -1,5 +1,5 @@
-import { MESSAGE } from 'consts';
+import { MESSAGE } from "consts"
 
 export const helpCommand = () => {
-    console.log(MESSAGE.COMMAND_INSTRUCTIONS);
+  console.log(MESSAGE.COMMAND_INSTRUCTIONS)
 }
