@@ -1,6 +1,20 @@
-import Robot from "models/robot"
-import { RobotCommand } from "./robot-command"
+/**
+ * ReportCommand announces the X, Y, and F of the robot's current position.
+ */
 
-export const report: RobotCommand = (robot: Robot) => {
-  console.log(robot.report())
+import { Command } from "../command"
+import Robot from "models/robot"
+import { Logger } from "utils/logger"
+
+export class ReportCommand extends Command {
+  private robot: Robot
+
+  constructor(robot: Robot) {
+    super()
+    this.robot = robot
+  }
+
+  execute(): void {
+    Logger.info(this.robot.report())
+  }
 }

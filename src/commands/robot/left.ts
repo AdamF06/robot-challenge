@@ -1,6 +1,19 @@
-import Robot from "models/robot"
-import { RobotCommand } from "./robot-command"
+/**
+ * LeftCommand rotates the robot 90 degrees to the left without changing its position.
+ */
 
-export const left: RobotCommand = (robot: Robot) => {
-  robot.left()
+import { Command } from "commands/command"
+import Robot from "models/robot"
+
+export class LeftCommand extends Command {
+  private robot: Robot
+
+  constructor(robot: Robot) {
+    super()
+    this.robot = robot
+  }
+
+  execute(): void {
+    this.robot.left()
+  }
 }

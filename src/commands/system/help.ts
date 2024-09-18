@@ -1,5 +1,13 @@
-import { MESSAGE } from "consts"
+/**
+ * HelpCommand displays a list of available commands and their descriptions.
+ */
 
-export const helpCommand = () => {
-  console.log(MESSAGE.COMMAND_INSTRUCTIONS)
+import { Command } from "commands/command"
+import { COMMAND_INSTRUCTIONS } from "consts/messages"
+import { Logger } from "utils/logger"
+
+export class HelpCommand extends Command {
+  execute(): void {
+    Logger.info(COMMAND_INSTRUCTIONS)
+  }
 }

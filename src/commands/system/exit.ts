@@ -1,7 +1,14 @@
-import { MESSAGE } from "consts"
-import * as readline from "readline"
+/**
+ * ExitCommand terminates the application gracefully.
+ */
 
-export const exitCommand = (rl: readline.Interface) => {
-  console.log(MESSAGE.EXIT)
-  rl.close()
+import { Command } from "commands/command"
+import { EXIT } from "consts/messages"
+import { Logger } from "utils/logger"
+
+export class ExitCommand extends Command {
+  execute(): void {
+    Logger.info(EXIT)
+    process.exit(0)
+  }
 }

@@ -1,31 +1,27 @@
-import dotenv from "dotenv"
-import Table from "models/table"
-import { Direction, DIRECTIONS, MESSAGE } from "consts"
+import { Direction, DIRECTIONS } from "consts/directions"
+import Table from "./table"
+import { ERRORS } from "consts/messages"
+import { Logger } from "utils/logger"
 
-dotenv.config()
-
-class Robot {
+export default class Robot {
   private x: number | null = null
   private y: number | null = null
   private direction: Direction | null = null
-  private readonly speed: number // use attribute 'speed' to calculate next position when execute 'MOVE' command
+  private speed: number // use attribute 'speed' to calculate next position when execute 'MOVE' command
   private table: Table
 
-  // Robot's Speed can be passed as a parameter when constructing the object OR
-  // configured in the .env file OR
-  // use the default value 1
-  constructor(speed?: number) {
-    this.speed = speed || parseInt(process.env.CAR_SPEED || "1", 10) // Default speed set to 1
-    this.table = Table.getInstance()
-    console.log(this.speed)
+  constructor(table: Table, speed: number) {
+    this.table = table
+    this.speed = speed
   }
 
   place(x: number, y: number, direction: Direction): void {
-    // skip command if (x,y) is an invalid position on table
     if (this.table.isValidPosition(x, y)) {
       this.x = x
       this.y = y
       this.direction = direction
+    } else {
+      Logger.error(ERRORS.INVALID_PLACE_COMMAND)
     }
   }
 
@@ -33,8 +29,7 @@ class Robot {
     // skip command if car doesn't position or direction
     if (this.x === null || this.y === null || this.direction === null) return
 
-    // Define a map for direction deltas with speed
-    const directionDeltas: Record<Direction, [number, number]> = {
+    const movement: Record<Direction, [number, number]> = {
       NORTH: [0, this.speed],
       EAST: [this.speed, 0],
       SOUTH: [0, -this.speed],
@@ -42,10 +37,7 @@ class Robot {
       // Could be extended with more directions e.g. NORTH-EAST: [0.7*this.speed, 0.7*this.speed]
     }
 
-    // Get the delta for the current direction
-    const [deltaX, deltaY] = directionDeltas[this.direction]
-
-    // Calculate new positions
+    const [deltaX, deltaY] = movement[this.direction]
     const newX = this.x + deltaX
     const newY = this.y + deltaY
 
@@ -58,26 +50,25 @@ class Robot {
   left(): void {
     // skip command if car doesn't have direction
     if (this.direction === null) return
-    const currentIndex = DIRECTIONS.indexOf(this.direction)
-    const directionsCount = DIRECTIONS.length
+
+    const index = DIRECTIONS.indexOf(this.direction)
     this.direction =
-      DIRECTIONS[(currentIndex + directionsCount - 1) % directionsCount]
+      DIRECTIONS[(index + DIRECTIONS.length - 1) % DIRECTIONS.length]
   }
 
   right(): void {
     // skip command if car doesn't have direction
     if (this.direction === null) return
-    const currentIndex = DIRECTIONS.indexOf(this.direction)
-    const directionsCount = DIRECTIONS.length
-    this.direction = DIRECTIONS[(currentIndex + 1) % directionsCount]
+
+    const index = DIRECTIONS.indexOf(this.direction)
+    this.direction = DIRECTIONS[(index + 1) % DIRECTIONS.length]
   }
 
-  report(): string | null {
+  report(): string {
     // report error message if car doesn't have a valid position
-    if (this.x === null || this.y === null || this.direction === null)
-      return MESSAGE.ERRORS.INVALID_CAR
+    if (this.x === null || this.y === null || this.direction === null) {
+      return ERRORS.INVALID_ROBOT
+    }
     return `${this.x},${this.y},${this.direction}`
   }
 }
-
-export default Robot

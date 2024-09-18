@@ -1,48 +1,28 @@
-import * as readline from "readline"
+/**
+ * CommandManager is responsible for parsing user input and
+ * instantiating the appropriate Command object.
+ */
+
+import { commandRegistry } from "./command-registry"
+import { Command } from "./command"
 import Robot from "models/robot"
+import { parseCommand } from "utils/command-parser"
 
-import { place } from "./robot/place"
-import { left } from "./robot/left"
-import { right } from "./robot/right"
-import { move } from "./robot/move"
-import { report } from "./robot/report"
+export default class CommandManager {
+  private robot: Robot
 
-import { defaultCommand } from "./system/default"
-import { exitCommand } from "./system/exit"
-import { helpCommand } from "./system/help"
-
-import { COMMANDS } from "consts"
-
-class CommandManager {
-  private commandHandlers: Record<string, (args?: string) => void> = {}
-  private readonly robot: Robot
-  private readonly rl: readline.Interface
-
-  constructor(robot: Robot, rl: readline.Interface) {
+  constructor(robot: Robot) {
     this.robot = robot
-    this.rl = rl
-    this.initializeCommandHandlers()
   }
 
-  private initializeCommandHandlers(): void {
-    this.commandHandlers[COMMANDS.PLACE] = (args?: string) =>
-      place(this.robot, args)
-    this.commandHandlers[COMMANDS.MOVE] = () => move(this.robot)
-    this.commandHandlers[COMMANDS.LEFT] = () => left(this.robot)
-    this.commandHandlers[COMMANDS.RIGHT] = () => right(this.robot)
-    this.commandHandlers[COMMANDS.REPORT] = () => report(this.robot)
-    this.commandHandlers[COMMANDS.EXIT] = () => exitCommand(this.rl)
-    this.commandHandlers[COMMANDS.HELP] = () => helpCommand()
-    // Extend here with further commands ...
-  }
+  public getCommand(input: string): Command {
+    const { commandName, args } = parseCommand(input)
+    const CommandClass = commandRegistry[commandName || "DEFAULT"]
 
-  public getCommandHandler(command: string): (args?: string) => void {
-    // Return the corresponding handler or a default handler for unmatched commands
-    return (
-      this.commandHandlers[command.toUpperCase()] ||
-      (() => defaultCommand(command))
-    )
+    if (commandName) {
+      return new CommandClass(this.robot, args)
+    } else {
+      return new CommandClass(input) // For DefaultCommand, pass the raw input
+    }
   }
 }
-
-export default CommandManager

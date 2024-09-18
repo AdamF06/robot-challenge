@@ -1,29 +1,34 @@
 import * as readline from "readline"
-
 import Robot from "models/robot"
-import { MESSAGE } from "consts"
 import CommandManager from "commands/command-manager"
+import { WELCOME } from "consts/messages"
+import { Config } from "config"
+import Table from "models/table"
+import { Logger } from "utils/logger"
 
-// Initialize the readline interface for input
+// Initialize readline interface for input
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
   terminal: false,
 })
 
-// Initialize Robot object
-const robot = new Robot()
+// Create Table instance
+const table = new Table(Config.TABLE_WIDTH, Config.TABLE_HEIGHT)
 
-// Initialize the CommandManager object
-const commandManager = new CommandManager(robot, rl)
+// Create Robot instance with the table
+const robot = new Robot(table, Config.CAR_SPEED)
+
+// Create CommandManager instance
+const commandManager = new CommandManager(robot)
 
 // Print welcome message
-console.log(MESSAGE.WELCOME)
+Logger.info(WELCOME)
 
-// Start console interface
+// Start listening for user input
 rl.on("line", (input: string) => {
-  const [command, args] = input.trim().split(" ")
-
-  const commandHandler = commandManager.getCommandHandler(command)
-  commandHandler(args)
+  const command = commandManager.getCommand(input)
+  if (command) {
+    command.execute()
+  }
 })
