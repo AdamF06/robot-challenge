@@ -4,4 +4,9 @@
  */
 export abstract class Command {
   abstract execute(): void
+
+  // implement more interfaces if needed in the future
+  // abstract redo(): void
+  // abstract undo(): void
+  // ...
 }
