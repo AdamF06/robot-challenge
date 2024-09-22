@@ -105,5 +105,17 @@
       "REPORT"
     ],
     "expected": "4,4,NORTH"
+  },
+  {
+    "description": "14. Simple move from (0,0) to (0,1) with monkey type",
+    "commands": [
+      "PLACE 0,0,NORTH",
+      "456 fGH ^&*(",
+      "@#$%DFGHcvb23456",
+      "cv345^&* DF- &*(",
+      "MOVE",
+      "REPORT"
+    ],
+    "expected": "0,1,NORTH"
   }
 ]
