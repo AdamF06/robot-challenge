@@ -38,10 +38,11 @@ export const COMMAND_INSTRUCTIONS = `
 
 // ERROR MESSAGES
 export const ERRORS = {
-  INVALID_PLACE_COMMAND: `Invalid PLACE command arguments. 
-  Correct format: PLACE X,Y,F (e.g., PLACE 0,0,NORTH). X and Y must within table's size.`,
+  INVALID_PLACE_COMMAND:
+    "Invalid PLACE command arguments. Correct format: PLACE X,Y,F (e.g., PLACE 0,0,NORTH). X and Y must within table's size.",
   INVALID_COMMAND: "Invalid command. Please try again.",
-  INVALID_ROBOT: `There's no robot on the table yet.`,
+  INVALID_ROBOT:
+    "There's no robot on the table yet. Please PLACE the robot with a valid position before executing REPORT.",
 }
 
 // EXIT MESSAGE

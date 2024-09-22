@@ -2,7 +2,7 @@
  * ReportCommand announces the X, Y, and F of the robot's current position.
  */
 
-import { Command } from "../command"
+import { Command } from "commands/command"
 import Robot from "models/robot"
 import { Logger } from "utils/logger"
 
