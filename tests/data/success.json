@@ -66,12 +66,13 @@
     "expected": "1,1,NORTH"
   },
   {
-    "description": "10. Ignore invalid PLACE",
+    "description": "10. Ignore invalid PLACE and MOVE",
     "commands": [
+      "PLACE 100,100,NORTH",
+      "MOVE",
       "PLACE 3,3,NORTH",
       "LEFT",
       "MOVE",
-      "PLACE 100,100,NORTH",
       "MOVE",
       "REPORT"
     ],

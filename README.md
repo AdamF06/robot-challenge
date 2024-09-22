@@ -1,5 +1,6 @@
 # Robot Challenge
 
+- [Description](#description)
 - [Environment](#environment)
 - [How To](#how-to)
   - [Setup](#setup)
@@ -10,6 +11,9 @@
 - [Some Design Decisions](#some-design-decisions)
 - [Some Extra Features](#some-extra-features)
 - [Dependencies](#dependencies)
+
+## Description
+
 
 ## Environment
 
