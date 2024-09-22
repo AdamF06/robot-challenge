@@ -11,13 +11,13 @@ jest.mock("utils/logger")
 describe("Robot Data-Driven Testing", () => {
   let robot: Robot
   let commandManager: CommandManager
-  let logSpy: jest.SpyInstance
+  let errorSpy: jest.SpyInstance
 
   beforeEach(() => {
     const table = new Table(5, 5)
     robot = new Robot(table, 1)
     commandManager = new CommandManager(robot)
-    logSpy = jest.spyOn(Logger, "info").mockImplementation(() => {})
+    errorSpy = jest.spyOn(Logger, "error").mockImplementation(() => {})
     jest.clearAllMocks()
   })
 
@@ -42,7 +42,7 @@ describe("Robot Data-Driven Testing", () => {
           const commandInstance = commandManager.getCommand(command)
           commandInstance.execute()
         })
-        expect(logSpy).toHaveBeenCalledWith(ERRORS.INVALID_ROBOT)
+        expect(errorSpy).toHaveBeenCalledWith(ERRORS.INVALID_ROBOT)
       })
     })
   })

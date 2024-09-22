@@ -3,6 +3,7 @@
  */
 
 import { Command } from "commands/command"
+import { ERRORS } from "consts/messages"
 import Robot from "models/robot"
 import { Logger } from "utils/logger"
 
@@ -15,6 +16,11 @@ export class ReportCommand extends Command {
   }
 
   execute(): void {
-    Logger.info(this.robot.report())
+    const report: string = this.robot.report()
+    if (report == ERRORS.INVALID_ROBOT) {
+      Logger.error(report)
+    } else {
+      Logger.info(report)
+    }
   }
 }
