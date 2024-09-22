@@ -30,6 +30,8 @@ The app will print a warning message if there is no robot on the table before an
 
 The app will keep running unless the user types EXIT or presses 'Ctrl + C'.
 
+User can get more explanation for each command by HELP command.
+
 ## Environment
 
 #### **Node.js**: v20.17.0
@@ -107,12 +109,12 @@ This project follows OO principles and implements the Command pattern.
 
 1. The user inputs commands via the console.
 2. The **Command Manager** interprets the input and selects the appropriate `Command`.
-3. The `Command` triggers actions on the `Robot` (e.g., movement) or executes system commands, such as `exit` or displaying the help documentation.
+3. The `Command` triggers actions on the `Robot` (e.g., movement) or executes system commands, such as `help` or displaying the help documentation.
 4. Users can continue to input commands until they exit the program.
 
 ### Considerations
 
-Although the **Command pattern** might appear redundant at first glance (e.g., `LeftCommand` and `RightCommand` simply invoke `left()` and `right()` on the robot), this design provides better scalability for future complex commands. New commands can be easily introduced by creating new subclasses of `Command`. And the **Robot** never needs to concern itself with the origin of the commands or how user input is processed (e.g., `PlaceCommand`).
+Although the **Command pattern** might appear redundant at first glance (e.g., `LeftCommand` and `RightCommand` simply invoke `left()` and `right()` on the robot), this design provides better scalability for future complex commands. New commands can be easily introduced by creating new concrete command classes extending `Command`. And the **Robot** never needs to concern itself with the origin of the commands or how user input is processed (e.g., `PlaceCommand`).
 
 By unifying the command interface, it becomes easier to extend or modify the command set without altering the `Robot` class.
 
