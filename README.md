@@ -1,3 +1,110 @@
-Environment:
-Node v20.17.0
-npm 10.8.2
+# Robot Challenge
+
+- [Environment](#environment)
+- [How To](#how-to)
+  - [Setup](#setup)
+  - [Run Project](#run-project)
+  - [Run Tests](#run-tests)
+  - [Lint](#lint)
+- [Custom Configuration (Optional)](#custom-configuration-optional)
+- [Some Design Decisions](#some-design-decisions)
+- [Dependencies](#dependencies)
+
+## Environment
+
+#### **Node.js**: v20.17.0
+
+#### **npm**: v10.8.2
+
+
+## How To
+
+### Setup
+
+Please Install dependencies by command `npm install` before run the project
+
+### Run Project
+
+Build and start the project:
+
+```
+npm run build
+npm start
+```
+
+Alternatively, run in development mode:
+
+```
+npm run dev
+```
+
+### Run Tests
+
+To execute the test suite: `npm test`
+
+### Lint
+
+To check for linting errors: `npm run lint`
+
+Fix Lint Errors: `npm run format`
+
+## Custom Configuration (Optional)
+
+### Configurable Variables
+
+The project includes three configurable variables:
+
+`TABLE_WIDTH`, `TABLE_HEIGHT`: Define the default size of the table.
+
+`ROBOT_SPEED`: Specifies the robot's movement speed, e.g., whether the robot moves 1 unit or 2 units per command.
+
+Configuration is optional. If no configuration is provided, the main program "app.ts" will use the following default values: [TABLE_WIDTH=5, TABLE_HEIGHT=5, and ROBOT_SPEED=1].
+
+### How to Set Up Configuration:
+
+1. Create a file named ".env" under the root path.
+2. Copy the contents from the "example-env" file and paste them into your ".env" file.
+3. Modify the variables with your desired values.
+
+
+## Some Design Decisions
+This project follows OO principles and implements the Command pattern.
+
+### Key Components:
+
+- **Models:**
+  - **Robot**: Holds the current position and the associated `Table` object. It includes all movement functions (`move`, `left`, `right`, `place`, `report`). Before each movement, the robot checks with its `Table` object to determine if the new position is valid.
+  - **Table**: Contains width and height properties and a function to determine whether a given position is valid.
+
+- **Commands:**
+  - All command objects must inherit from the abstract `Command` class and implement the `execute()` function.
+  - Commands that interact with the `Robot` have a private `robot` property and perform actions by calling the robot's movement functions. Commands are **not** allowed to directly modify the robot’s position attributes to initiate movement.
+
+- **Command Manager:**
+  - Responsible for processing user input and creating the corresponding command objects.
+
+### Project Flow
+
+1. The user inputs commands via the console.
+2. The **Command Manager** interprets the input and selects the appropriate `Command`.
+3. The `Command` triggers actions on the `Robot` (e.g., movement) or executes system commands, such as `exit` or displaying the help documentation.
+4. Users can continue to input commands until they exit the program.
+
+### Considerations
+
+Although the **Command pattern** might appear redundant at first glance (e.g., `LeftCommand` and `RightCommand` simply invoke `left()` and `right()` on the robot), this design provides better scalability for future complex commands. New commands can be easily introduced by creating new subclasses of `Command`. And the **Robot** never needs to concern itself with the origin of the commands or how user input is processed (e.g., `PlaceCommand`).
+
+By unifying the command interface, it becomes easier to extend or modify the command set without altering the `Robot` class.
+
+From an object-oriented perspective, the movement behaviors (`move`, `left`, `right`, `place`, `report`) naturally belong to the **Robot** and should not be moved into the `Command` class. If the **Robot** class were reduced to only containing properties with simple getter/setter methods, it would turn into an **anemic model**. An anemic model lacks behaviors and serves as little more than a data container, violating the principle of encapsulation in object-oriented design.
+
+The **Command** acts as a Middle-Man, effectively decoupling the user input (invoker) from the **Robot** (receiver).
+
+
+## Dependencies
+
+- **dotenv**: Loads environment variables from a .env file into process.env.
+- **fuse.js**: A lightweight fuzzy-search library used to suggest similar valid commands when an invalid command is entered.
+
+
+

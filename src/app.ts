@@ -17,7 +17,7 @@ const rl = readline.createInterface({
 const table = new Table(Config.TABLE_WIDTH, Config.TABLE_HEIGHT)
 
 // Create Robot instance with the table
-const robot = new Robot(table, Config.CAR_SPEED)
+const robot = new Robot(table, Config.ROBOT_SPEED)
 
 // Create CommandManager instance
 const commandManager = new CommandManager(robot)
