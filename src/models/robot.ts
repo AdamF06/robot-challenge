@@ -1,7 +1,6 @@
 import { Direction, DIRECTIONS } from "consts/directions"
 import Table from "./table"
 import { ERRORS } from "consts/messages"
-import { Logger } from "utils/logger"
 
 export default class Robot {
   private x: number | null = null
@@ -16,12 +15,11 @@ export default class Robot {
   }
 
   place(x: number, y: number, direction: Direction): void {
+    // discard command if (x,y) is not a valid position
     if (this.table.isValidPosition(x, y)) {
       this.x = x
       this.y = y
       this.direction = direction
-    } else {
-      Logger.error(ERRORS.INVALID_PLACE_COMMAND)
     }
   }
 

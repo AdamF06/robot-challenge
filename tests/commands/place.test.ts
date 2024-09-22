@@ -35,7 +35,6 @@ describe("PlaceCommand", () => {
     command = new PlaceCommand(robot, `5,5,${DIRECTION.NORTH}`)
     command.execute()
     expect(robot.report()).toBe(ERRORS.INVALID_ROBOT)
-    expect(logSpy).toHaveBeenCalledWith(ERRORS.INVALID_PLACE_COMMAND)
   })
 
   test("should not place robot with invalid direction arguments", () => {

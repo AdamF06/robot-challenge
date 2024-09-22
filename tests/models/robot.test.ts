@@ -2,21 +2,14 @@ import Robot from "models/robot"
 import Table from "models/table"
 import { ERRORS } from "consts/messages"
 import { DIRECTION } from "consts/directions"
-import { Logger } from "utils/logger"
 
 describe("Robot Class", () => {
   let table: Table
   let robot: Robot
-  let logSpy: jest.SpyInstance
 
   beforeEach(() => {
     table = new Table(5, 5)
     robot = new Robot(table, 1)
-    logSpy = jest.spyOn(Logger, "error").mockImplementation(() => {})
-  })
-
-  afterEach(() => {
-    logSpy.mockRestore()
   })
 
   test("should not move or turn before PLACE command", () => {
@@ -34,7 +27,6 @@ describe("Robot Class", () => {
   test("should ignore invalid PLACE positions", () => {
     robot.place(5, 5, DIRECTION.NORTH)
     expect(robot.report()).toBe(ERRORS.INVALID_ROBOT)
-    expect(logSpy).toHaveBeenCalledWith(ERRORS.INVALID_PLACE_COMMAND)
   })
 
   test("should move robot forward", () => {
@@ -99,7 +91,6 @@ describe("Robot Class", () => {
     expect(robot.report()).toBe(`3,3,${DIRECTION.SOUTH}`)
 
     robot.place(5, 5, DIRECTION.NORTH) // should be ignored
-    expect(logSpy).toHaveBeenCalledWith(ERRORS.INVALID_PLACE_COMMAND)
     expect(robot.report()).toBe(`3,3,${DIRECTION.SOUTH}`)
 
     robot.place(0, 0, DIRECTION.EAST) // replace
