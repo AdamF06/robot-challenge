@@ -25,9 +25,20 @@ export default class Robot {
     }
   }
 
+  isPlaced(): boolean {
+    // Check if x, y, and direction are non-null and valid
+    return (
+      this.x !== null &&
+      this.y !== null &&
+      this.direction !== null &&
+      this.table.isValidPosition(this.x, this.y) && // Ensure position is valid
+      DIRECTIONS.includes(this.direction) // Ensure direction is valid
+    )
+  }
+
   move(): void {
-    // skip command if car doesn't position or direction
-    if (this.x === null || this.y === null || this.direction === null) return
+    // discard command if robot hasn't been placed yet
+    if (!this.isPlaced()) return
 
     const movement: Record<Direction, [number, number]> = {
       NORTH: [0, this.speed],
@@ -37,9 +48,9 @@ export default class Robot {
       // Could be extended with more directions e.g. NORTH-EAST: [0.7*this.speed, 0.7*this.speed]
     }
 
-    const [deltaX, deltaY] = movement[this.direction]
-    const newX = this.x + deltaX
-    const newY = this.y + deltaY
+    const [deltaX, deltaY] = movement[this.direction as Direction]
+    const newX = this.x! + deltaX
+    const newY = this.y! + deltaY
 
     if (this.table.isValidPosition(newX, newY)) {
       this.x = newX
@@ -48,25 +59,25 @@ export default class Robot {
   }
 
   left(): void {
-    // skip command if car doesn't have direction
-    if (this.direction === null) return
+    // discard command if robot hasn't been placed yet
+    if (!this.isPlaced()) return
 
-    const index = DIRECTIONS.indexOf(this.direction)
+    const index = DIRECTIONS.indexOf(this.direction as Direction)
     this.direction =
       DIRECTIONS[(index + DIRECTIONS.length - 1) % DIRECTIONS.length]
   }
 
   right(): void {
-    // skip command if car doesn't have direction
-    if (this.direction === null) return
+    // discard command if robot hasn't been placed yet
+    if (!this.isPlaced()) return
 
-    const index = DIRECTIONS.indexOf(this.direction)
+    const index = DIRECTIONS.indexOf(this.direction as Direction)
     this.direction = DIRECTIONS[(index + 1) % DIRECTIONS.length]
   }
 
   report(): string {
-    // report error message if car doesn't have a valid position
-    if (this.x === null || this.y === null || this.direction === null) {
+    // report error message if robot hasn't been placed yet
+    if (!this.isPlaced()) {
       return ERRORS.INVALID_ROBOT
     }
     return `${this.x},${this.y},${this.direction}`
