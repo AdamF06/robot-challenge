@@ -13,7 +13,22 @@
 - [Dependencies](#dependencies)
 
 ## Description
+This is a console application to simulate a robot running on a table.
+Once the app starts, the user can input commands from the following list to control the robot:
+```
+PLACE X,Y,F
+MOVE
+LEFT
+RIGHT
+REPORT
+```
+Commands are not case-sensitive. Similar command suggestions will be provided in case the user inputs a typo.
 
+By default, the table size is 5x5, and the robot can move 1 unit per each MOVE command. Commands that would cause the robot to fall off the table will be ignored (including the PLACE command). Unrecognized commands will be ignored as well.
+
+The app will print a warning message if there is no robot on the table before any REPORT command.
+
+The app will keep running unless the user types EXIT or presses 'Ctrl + C'.
 
 ## Environment
 
