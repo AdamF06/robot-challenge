@@ -103,7 +103,7 @@ The **Command** acts as a Middle-Man, effectively decoupling the user input (inv
 
 
 ## Some Extra Features
-As a console application, it typically provides a `help` command and suggestions for similar commands. In the "src/commands/system" directory, there is a "help.ts" file that represents the `help` command class, and "default.ts" serves as the fallback handler for unrecognized commands.
+As a console application, it typically provides a `help` command and suggestions for similar commands. In the "src/commands/system" directory, there is a "help.ts" file that represents the `help` command class, and "default.ts" serves as the fallback handler for unrecognized commands. It can recommend similar commands that the user might intend to type or print an error message if none are found.
 
 For a better user experience, the application logs errors for invalid `PLACE` commands and when `REPORT` is invoked without a valid robot placed on the table.
 
