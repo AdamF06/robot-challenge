@@ -8,6 +8,7 @@
   - [Lint](#lint)
 - [Custom Configuration (Optional)](#custom-configuration-optional)
 - [Some Design Decisions](#some-design-decisions)
+- [Some Extra Features](#some-extra-features)
 - [Dependencies](#dependencies)
 
 ## Environment
@@ -99,6 +100,14 @@ By unifying the command interface, it becomes easier to extend or modify the com
 From an object-oriented perspective, the movement behaviors (`move`, `left`, `right`, `place`, `report`) naturally belong to the **Robot** and should not be moved into the `Command` class. If the **Robot** class were reduced to only containing properties with simple getter/setter methods, it would turn into an **anemic model**. An anemic model lacks behaviors and serves as little more than a data container, violating the principle of encapsulation in object-oriented design.
 
 The **Command** acts as a Middle-Man, effectively decoupling the user input (invoker) from the **Robot** (receiver).
+
+
+## Some Extra Features
+As a console application, it typically provides a `help` command and suggestions for similar commands. In the "src/commands/system" directory, there is a "help.ts" file that represents the `help` command class, and "default.ts" serves as the fallback handler for unrecognized commands.
+
+For a better user experience, the application logs errors for invalid `PLACE` commands and when `REPORT` is invoked without a valid robot placed on the table.
+
+To maintain smooth execution, the program will DISCARD any commands that would cause the robot to fall off the table, without logging any errors for these cases.
 
 
 ## Dependencies
