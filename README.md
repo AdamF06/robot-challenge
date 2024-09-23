@@ -32,6 +32,10 @@ The app will keep running unless the user types EXIT or presses 'Ctrl + C'.
 
 User can get more explanation for each command by HELP command.
 
+Note: The project currently **does NOT support floating numbers** because they introduce more complex use cases. For example, it is unclear how the robot should move when positioned at coordinates like 3.99999, 3.99999 facing NORTH. Additionally, questions such as whether the table should allow unreachable areas for the robot, or how many decimal places to retain for precision, are not clearly defined.
+
+Hence the PLACE command will **only take the integer part** of the X and Y coordinates
+
 ## Environment
 
 #### **Node.js**: v20.17.0
