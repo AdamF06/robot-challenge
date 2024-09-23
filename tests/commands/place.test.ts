@@ -29,6 +29,11 @@ describe("PlaceCommand", () => {
     command = new PlaceCommand(robot, `0,  0,  north`)
     command.execute()
     expect(robot.report()).toBe(`0,0,${DIRECTION.NORTH}`)
+
+    // should parse to integer
+    command = new PlaceCommand(robot, `1.1111,2.222,${DIRECTION.NORTH}`)
+    command.execute()
+    expect(robot.report()).toBe(`1,2,${DIRECTION.NORTH}`)
   })
 
   test("should not place robot with invalid position arguments", () => {
